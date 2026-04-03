@@ -1,0 +1,51 @@
+class Solution {
+public:
+    string trim(string s) {
+        int start = 0, end = s.size() - 1;
+
+        while (start <= end && s[start] == ' ')
+            start++;
+        while (end >= start && s[end] == ' ')
+            end--;
+
+        return s.substr(start, end - start + 1);
+    }
+
+    string reverseWords(string s) {
+        string str = trim(s);
+        int n = str.size();
+        int i = n - 1;
+
+        string result = "";
+        string help = "";
+        while (i >= 0) {
+            if (str[i] == ' ' && help.size() == 0) {
+                i--;
+            } else if (str[i] == ' ') {
+                reverse(help.begin(), help.end());
+                if (result.size() != 0) {
+                    result.append(" ");
+                    result.append(help);
+                } else {
+                    result.append(help);
+                }
+
+                help = "";
+                i--;
+            } else if (str[i] != ' ') {
+                help.push_back(str[i]);
+                i--;
+            }
+        }
+
+        reverse(help.begin(), help.end());
+        if (result.size() != 0) {
+            result.append(" ");
+            result.append(help);
+        } else {
+            result.append(help);
+        }
+
+        return result;
+    }
+};

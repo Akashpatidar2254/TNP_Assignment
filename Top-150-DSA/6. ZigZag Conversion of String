@@ -1,0 +1,66 @@
+//using 2D Arrray
+class Solution {
+public:
+    void fill_vector(vector<vector<char>>& v, int row, int col, string s) {
+        int n = s.size();
+        int i = 0, j = 0;
+        int idx = 0;
+        while (idx < n && j < col) {
+            while (i < row && idx < n) {
+                v[i][j] = s[idx++];
+                i++;
+            }
+            i -= 2;
+            j++;
+
+            while (i > 0 && j < col && idx < n) {
+                v[i][j] = s[idx++];
+                i--;
+                j++;
+            }
+        }
+    }
+
+    int count_col(string s, int numRows) {
+        if (numRows == 1)
+            return s.size();
+        int n = s.size();
+        int col = 0;
+        int i = 0;
+
+        while (i < n) {
+
+            col++;
+            i += numRows;
+            for (int k = 0; k < numRows - 2 && i < n; k++) {
+                col++;
+                i++;
+            }
+        }
+        return col;
+    }
+
+
+    string convert(string s, int numRows) {
+
+        if (numRows == 1)
+            return s;
+
+        int col = count_col(s, numRows);
+
+        vector<vector<char>> v(numRows, vector<char>(col, '@'));
+
+        fill_vector(v, numRows, col, s);
+
+        string result = "";
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < col; j++) {
+                if (v[i][j] != '@') {
+                    result.push_back(v[i][j]);
+                }
+            }
+        }
+
+        return result;
+    }
+};
